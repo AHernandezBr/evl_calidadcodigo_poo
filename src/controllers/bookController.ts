@@ -27,8 +27,8 @@ export class BookController {
   // };
 
   create = async (req: Request, res: Response) => {
-    const { title, author, year, editorialId } = req.body;
-    const newBook = new Book(1, title, author, year, editorialId); // ID será generado automáticamente por la base de datos
+    const {id, title, author, year, editorialId } = req.body;
+    const newBook = new Book(id, title, author, year, editorialId); // ID será generado automáticamente por la base de datos
     try {
       const createdBook = await this.bookService.createBook(newBook);
       res.status(201).json(createdBook);
