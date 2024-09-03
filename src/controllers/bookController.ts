@@ -37,5 +37,15 @@ export class BookController {
     }
   };
 
+  delete = async (req: Request, res: Response) => {
+    const id = parseInt(req.params.id);
+    try {
+      this.bookService.deleteBook(id);
+      res.status(200)
+    } catch (error) {
+      res.status(500).json({ error: "Error deleting book" });
+    }
+  }
+
 
 }
