@@ -7,6 +7,7 @@ export class BookController {
   constructor() {
     this.bookService = new BookService();
   }
+  
   getAll = async (req: Request, res: Response) => {
     try {
       const books = await this.bookService.getAllBooks();

@@ -8,6 +8,7 @@ export class EditorialController {
   constructor() {
     this.editorialService = new EditorialService();
   }
+  
   getAll = async (req: Request, res: Response) => {
     try {
       const editorials = await this.editorialService.getAllEditorials();
@@ -49,7 +50,9 @@ export class EditorialController {
   };
   getById = async (req:Request, res:Response) => {
     try {
-
+      const id = parseInt(req.params.id);
+      const editorial = await this.editorialService.getEditorialId(id);
+      res.status(200).json(editorial);
     }catch (error) {
       res.status(500).json({error: "Error finding editorial"});
     }

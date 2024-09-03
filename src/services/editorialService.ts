@@ -3,10 +3,19 @@ import { Editorial } from "../models/editorial";
 import { IeditorialService } from "./IeditorialService";
 export class EditorialService implements IeditorialService{
     getAllEditorials(): Promise<Editorial[]> {
-        throw new Error("Method not implemented.");
+        const result = pool.query('SELECT * FROM editorials');
+        return result.then((res) => res.rows.map((row) => new Editorial(row.id, row.name)));
     }
     getEditorialId(id: number): Promise<Editorial> {
-        throw new Error("Method not implemented.");
+        const result = pool.query('SELECT * FROM editorials WHERE id = $1', [id]);
+        return result.then((res) => {
+          const row = res.rows[0];
+          if (!row) {
+            throw new Error(`Editorial with id ${id} not found`);
+          }
+          return new Editorial(row.id, row.name);
+        }
+        );
     }
     async createEditorial(editorial: Editorial): Promise<Editorial> {
         const result = await pool.query(
