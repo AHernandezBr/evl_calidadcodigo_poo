@@ -8,7 +8,7 @@ export class EditorialController {
   constructor() {
     this.editorialService = new EditorialService();
   }
-  
+
   getAll = async (req: Request, res: Response) => {
     try {
       const editorials = await this.editorialService.getAllEditorials();
@@ -32,8 +32,12 @@ export class EditorialController {
   };
 
   update = async (req:Request, res:Response) => {
+    const id = parseInt(req.params.id);
+    const {name} = req.body;
+    const editorial = new Editorial(id,name);
     try {
-
+      const updatedEditorial = await this.editorialService.updateEditorial(id, editorial);
+      res.status(200).json(updatedEditorial);
     }catch (error) {
       res.status(500).json({error: "Error updating editorial"});
     }
