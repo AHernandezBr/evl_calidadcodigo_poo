@@ -38,11 +38,13 @@ export class EditorialController {
     }
   };
 
-  delete = async (req:Request, res:Response) => {
+  delete = async (req: Request, res: Response) => {
+    const id = parseInt(req.params.id);
     try {
-
-    }catch (error) {
-      res.status(500).json({error: "Error deleting editorial"});
+      const deletedEditorial = this.editorialService.deleteEditorial(id);
+      res.status(200).json(deletedEditorial);
+    } catch (error) {
+      res.status(500).json({ error: "Error deleting editorial" });
     }
   };
   getById = async (req:Request, res:Response) => {

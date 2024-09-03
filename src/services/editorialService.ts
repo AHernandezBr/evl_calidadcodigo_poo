@@ -19,8 +19,14 @@ export class EditorialService implements IeditorialService{
     updateEditorial(Editorial: Editorial): Promise<Editorial> {
         throw new Error("Method not implemented.");
     }
-    deleteEditorial(id: number): Promise<Editorial> {
-        throw new Error("Method not implemented.");
+
+    async deleteEditorial(id: number): Promise<Editorial> {
+        const result = await pool.query('DELETE FROM editorials WHERE id = $1 RETURNING *',[id]);
+    const row = result.rows[0];
+    if (!row) {
+      throw new Error(`Editorial with id ${id} not found`);
+    }
+    return new Editorial(row.id, row.name);
     }
 
 }
