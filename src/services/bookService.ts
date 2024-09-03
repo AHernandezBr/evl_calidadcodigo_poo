@@ -9,8 +9,16 @@ export class BookService implements IbookService{
   }
   
   getBookById(id: number): Promise<Book> {
-    throw new Error("Method not implemented.");
+    const result = pool.query('SELECT * FROM books WHERE id = $1', [id]);
+    return result.then((res) => {
+      const row = res.rows[0];
+      if (!row) {
+        throw new Error(`Book with id ${id} not found`);
+      }
+      return new Book(row.id, row.title, row.author, row.year, row.editorial_id);
+    });
   }
+
   async createBook(book: Book): Promise<Book> {
     const result = await pool.query(
       'INSERT INTO books (id, title, author, year, editorialid) VALUES ($1, $2, $3, $4, $5) RETURNING *',
