@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { BookService } from "../services/bookService";
+import { Book } from "../models/book";
 
 export class BookController {
   private bookService: BookService;
@@ -13,5 +14,8 @@ export class BookController {
     } catch (error) {
       res.status(500).json({ error: "Error fetching books" });
     }
+  };
+
+  create = async (req: Request, res: Response) => {
   };
 }
