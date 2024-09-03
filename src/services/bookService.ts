@@ -4,8 +4,10 @@ import pool from "../database/database";
 
 export class BookService implements IbookService{
   async getAllBooks(): Promise<Book[]> {
-    const result = await pool.query('SELECT * FROM books');
-    return result.rows.map((row: any) => new Book(row.id, row.title, row.author, row.year, row.editorial_id));
+    return [
+      new Book(1, "The Hobbit", "J.R.R. Tolkien", 1937, 1),
+      new Book(2, "The Lord of the Rings", "J.R.R. Tolkien", 1954, 1),
+    ];
   }
   
   getBookById(id: number): Promise<Book> {
