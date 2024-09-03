@@ -1,9 +1,9 @@
 import { Editorial } from "../models/editorial";
 
-export interface IbookService {
-    getAllBooks(): Promise<Editorial[]>;
-    getBookById(id: number): Promise<Editorial>;
-    createBook(book: Editorial): Promise<Editorial>;
-    updateBook(book: Editorial): Promise<Editorial>;
-    deleteBook(id: number): Promise<Editorial>;
+export interface IeditorialService {
+    getAllEditorials(): Promise<Editorial[]>;
+    getEditorialId(id: number): Promise<Editorial>;
+    createEditorial(Editorial: Editorial): Promise<Editorial>;
+    updateEditorial(Editorial: Editorial): Promise<Editorial>;
+    deleteEditorial(id: number): Promise<Editorial>;
 }
