@@ -38,6 +38,18 @@ export class BookController {
     }
   };
 
+  update = async (req:Request, res:Response) => {
+    const id = parseInt(req.params.id);
+    const {title,author,year,editorialId} = req.body;
+    const book = new Book(id,title,author,year,editorialId);
+    try {
+      const updatedEditorial = await this.bookService.updateBook(id, book);
+      res.status(200).json(updatedEditorial);
+    }catch (error) {
+      res.status(500).json({error: "Error updating book"});
+    }
+  };
+
   delete = async (req: Request, res: Response) => {
     const id = parseInt(req.params.id);
     try {

@@ -25,12 +25,20 @@ export class BookService implements IbookService{
       [book.id, book.title, book.author, book.year, book.editorialId]
     );
     const row = result.rows[0];
-    return new Book(row.id, row.title, row.author, row.year, row.editorialid);
+    return new Book(row.id, row.title, row.author, row.year, row.editorialId);
   }
 
-  updateBook(book: Book): Promise<Book> {
-    throw new Error("Method not implemented.");
-  }
+  updateBook(id:number, book: Book): Promise<Book> {
+    const result = pool.query('UPDATE books SET title = $1, author = $2, year = $3, editorialid = $4 WHERE id = $5 RETURNING *', [book.title, book.author, book.year, book.editorialId, id]);
+    return result.then((res) => {
+      const row = res.rows[0];
+      if (!row) {
+        throw new Error(`Book with id ${id} not found`);
+      }
+      return new Book(row.id, row.title, row.author, row.year, row.editorialId);
+    }
+    );
+}
   async deleteBook(id: number): Promise<Book> {
     const result = await pool.query('DELETE FROM books WHERE id = $1 RETURNING *',[id]);
     const row = result.rows[0];
