@@ -18,10 +18,11 @@ export class EditorialController {
   };
 
   create = async (req: Request, res: Response) => {
-    let editorial = new Editorial(3, "Planeta");
+    const { id,name } = req.body;
+    const newEditorial = new Editorial(id,name); 
     try {
-      const newEditorial = await this.editorialService.createEditorial(editorial);
-      res.status(200).json(newEditorial);
+      const createdEditorial = await this.editorialService.createEditorial(newEditorial);
+      res.status(200).json(createdEditorial);
     } catch (error) {
       res.status(500).json({ error: "Error creating editorial" });
     }
