@@ -4,10 +4,8 @@ import pool from "../database/database";
 
 export class BookService implements IbookService{
   async getAllBooks(): Promise<Book[]> {
-    return [
-      new Book(1, "The Hobbit", "J.R.R. Tolkien", 1937, 1),
-      new Book(2, "The Lord of the Rings", "J.R.R. Tolkien", 1954, 1),
-    ];
+    const result = await pool.query('SELECT * FROM books');
+    return result.rows.map((row: any) => new Book(row.id, row.title, row.author, row.year, row.editorial_id));
   }
   
   getBookById(id: number): Promise<Book> {
@@ -25,7 +23,12 @@ export class BookService implements IbookService{
   updateBook(book: Book): Promise<Book> {
     throw new Error("Method not implemented.");
   }
-  deleteBook(id: number): Promise<Book> {
-    throw new Error("Method not implemented.");
+  async deleteBook(id: number): Promise<Book> {
+    const result = await pool.query('DELETE FROM books WHERE id = $1 RETURNING *',[id]);
+    const row = result.rows[0];
+    if (!row) {
+      throw new Error(`Book with id ${id} not found`);
+    }
+    return new Book(row.id, row.title, row.author, row.year, row.editorial_id);
   }
 }
