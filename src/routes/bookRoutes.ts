@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { BookController } from "../controllers/bookController";
+import { editorialController } from "../controllers/editorialController";
 
 const router = Router();
 const bookController = new BookController();
